@@ -1133,7 +1133,7 @@
           "mode": "name",
           "value": "={{ $('Globals').item.json.repo.name }}"
         },
-        "filePath": "={{ $('Globals').item.json.repo.path }}{{$('Execute Workflow Trigger').first().json.id}}.json",
+        "filePath": "={{ $('Globals').item.json.repo.path }}{{$('Execute Workflow Trigger').first().json.n}}.json",
         "fileContent": "={{$('isDiffOrNew').item.json[\"n8n_data_stringy\"]}}",
         "commitMessage": "={{$('Execute Workflow Trigger').first().json.name}} ({{$json.github_status}})"
       },
@@ -1349,6 +1349,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-01-16T16:13:12.687Z",
-  "versionId": "008d9ff9-536d-4252-9fc9-fddcece7ccce"
+  "updatedAt": "2026-01-16T16:20:50.834Z",
+  "versionId": "fed65c3c-b80f-41ad-8801-1b066881bb96"
 }
