@@ -307,17 +307,7 @@
     "authors": "Omid Sedighi-Mornani",
     "name": "v0.1",
     "description": "Added WhatsApp Bot communication with direct AI model response",
-    "autosaved": false,
-    "workflowPublishHistory": [
-      {
-        "createdAt": "2026-01-16T00:06:19.186Z",
-        "id": 1,
-        "workflowId": "iI3KJyvaZCUqMexG79HSL",
-        "versionId": "10b342db-781a-4cc6-a8ae-c27f2e18117c",
-        "event": "activated",
-        "userId": "cf1e9a9b-7c78-4fa1-8082-862df3d67e20"
-      }
-    ]
+    "autosaved": false
   },
   "activeVersionId": "10b342db-781a-4cc6-a8ae-c27f2e18117c",
   "connections": {
@@ -390,7 +380,6 @@
     }
   },
   "createdAt": "2026-01-15T17:40:10.990Z",
-  "description": null,
   "id": "iI3KJyvaZCUqMexG79HSL",
   "isArchived": false,
   "meta": {
@@ -668,56 +657,12 @@
       "createdAt": "2026-01-15T17:40:10.990Z",
       "role": "workflow:owner",
       "workflowId": "iI3KJyvaZCUqMexG79HSL",
-      "projectId": "qSOZXMvgNXXMUy37",
-      "project": {
-        "updatedAt": "2026-01-15T17:36:50.677Z",
-        "createdAt": "2026-01-15T17:35:39.156Z",
-        "id": "qSOZXMvgNXXMUy37",
-        "name": "Omid Sedighi-Mornani <osedighi99@gmail.com>",
-        "type": "personal",
-        "icon": null,
-        "description": null,
-        "creatorId": "cf1e9a9b-7c78-4fa1-8082-862df3d67e20",
-        "projectRelations": [
-          {
-            "updatedAt": "2026-01-15T17:35:39.156Z",
-            "createdAt": "2026-01-15T17:35:39.156Z",
-            "userId": "cf1e9a9b-7c78-4fa1-8082-862df3d67e20",
-            "projectId": "qSOZXMvgNXXMUy37",
-            "user": {
-              "updatedAt": "2026-01-16T00:07:08.919Z",
-              "createdAt": "2026-01-15T17:35:38.236Z",
-              "id": "cf1e9a9b-7c78-4fa1-8082-862df3d67e20",
-              "email": "osedighi99@gmail.com",
-              "firstName": "Omid",
-              "lastName": "Sedighi-Mornani",
-              "personalizationAnswers": {
-                "version": "v4",
-                "personalization_survey_submitted_at": "2026-01-15T17:37:01.047Z",
-                "personalization_survey_n8n_version": "2.3.5",
-                "companyType": "personal",
-                "reportedSource": "friend"
-              },
-              "settings": {
-                "userActivated": true,
-                "easyAIWorkflowOnboarded": true,
-                "firstSuccessfulWorkflowId": "iI3KJyvaZCUqMexG79HSL",
-                "userActivatedAt": 1768522025917
-              },
-              "disabled": false,
-              "mfaEnabled": false,
-              "lastActiveAt": "2026-01-15",
-              "isPending": false
-            }
-          }
-        ]
-      }
+      "projectId": "qSOZXMvgNXXMUy37"
     }
   ],
   "staticData": null,
   "tags": [],
   "triggerCount": 2,
   "updatedAt": "2026-01-16T13:45:32.637Z",
-  "versionCounter": 30,
   "versionId": "bba72ced-ee81-4e7d-a4ac-20327ba2e93f"
 }
