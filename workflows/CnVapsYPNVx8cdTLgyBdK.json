@@ -935,29 +935,7 @@
     },
     {
       "parameters": {
-        "content": "## Subworkflow",
-        "height": 750.8363163824032,
-        "width": 2086.845881354743,
-        "color": 6
-      },
-      "id": "18f52eba-3107-4f63-a49d-668924039788",
-      "name": "Sticky Note",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        240,
-        640
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
-        "operation": "get",
-        "workflowId": {
-          "__rl": true,
-          "value": "iI3KJyvaZCUqMexG79HSL",
-          "mode": "list",
-          "cachedResultName": "WhatsApp Flow (#iI3KJyvaZCUqMexG79HSL)"
-        },
+        "filters": {},
         "requestOptions": {}
       },
       "id": "67b5ba9e-99ab-4cea-8155-0f523ff45163",
@@ -1244,22 +1222,6 @@
     },
     {
       "parameters": {
-        "content": "## Main workflow loop",
-        "height": 435,
-        "width": 886,
-        "color": 7
-      },
-      "id": "a0ba46b4-f645-4cb0-b018-c5ceb5134734",
-      "name": "Sticky Note2",
-      "type": "n8n-nodes-base.stickyNote",
-      "position": [
-        640,
-        192
-      ],
-      "typeVersion": 1
-    },
-    {
-      "parameters": {
         "resource": "file",
         "operation": "get",
         "owner": {
@@ -1387,6 +1349,6 @@
   "staticData": null,
   "tags": [],
   "triggerCount": 1,
-  "updatedAt": "2026-01-16T13:46:06.788Z",
-  "versionId": "f0c3d92a-320d-4fd1-afcd-c02dc2b70760"
+  "updatedAt": "2026-01-16T16:13:12.687Z",
+  "versionId": "008d9ff9-536d-4252-9fc9-fddcece7ccce"
 }
