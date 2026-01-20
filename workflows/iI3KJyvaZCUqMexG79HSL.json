@@ -1,0 +1,337 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "WhatsApp Trigger": {
+      "main": [
+        []
+      ]
+    },
+    "Send message": {
+      "main": [
+        []
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Listen for Webhook Call from Meta": {
+      "main": [
+        [
+          {
+            "node": "Check Token",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Token": {
+      "main": [
+        [
+          {
+            "node": "Sucess: Send 200",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wrong Token: Send 403",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Sucess: Send 200": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "createdAt": "2026-01-15T17:40:10.990Z",
+  "id": "iI3KJyvaZCUqMexG79HSL",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "WhatsApp Flow",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Verify Webhook Subscription",
+        "height": 448,
+        "width": 784,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1552,
+        -1136
+      ],
+      "typeVersion": 1,
+      "id": "82b58c85-aff2-451b-91e4-dd471e0bf00c",
+      "name": "Sticky Note",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {
+          "messageStatusUpdates": [
+            "failed"
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -144,
+        -624
+      ],
+      "id": "48887cef-5598-4753-8782-c4ec4a7ac82c",
+      "name": "WhatsApp Trigger",
+      "webhookId": "ea39c64d-3233-466c-84b4-bcfe654ab675",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "mZOQwegw4HMmNKgw",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "906416842560656",
+        "recipientPhoneNumber": "=+{{ $('WhatsApp Trigger').item.json.messages[0].from }}",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        400,
+        -624
+      ],
+      "id": "650bc2a0-40c0-41ea-a812-181b8232855d",
+      "name": "Send message",
+      "webhookId": "acbf7662-05ac-47dd-9e0e-bf4fc20afe19",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "lfOLV2Xk1iMETfI6",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Whatsapp Event Webhook Message Event Listener with AI Response",
+        "height": 368,
+        "width": 912,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -208,
+        -688
+      ],
+      "typeVersion": 1,
+      "id": "37fdaaaa-70d2-4fda-bf8b-d63b9eced6ec",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "Du bist ein hilfreicher Assistent und antwortest auf WhatsApp-Nachrichten. Gehe dabei darauf ein, was der Nutzer sagt."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        64,
+        -624
+      ],
+      "id": "698bfe1a-9dfa-44cb-a612-72252a818cbe",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gpt-4o-mini",
+          "mode": "list",
+          "cachedResultName": "gpt-4o-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        64,
+        -464
+      ],
+      "id": "7bb2cf14-2711-4448-9ff2-0bd1c1d8015b",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "OrEhAg3hQSbeZR36",
+          "name": "OpenAi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "={{$json.query[\"hub.challenge\"]}}\n",
+        "options": {
+          "responseCode": 200,
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "text/plain"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -1024,
+        -1056
+      ],
+      "id": "4fcf5d7b-1dd2-46d8-a771-f813ec8c0a4f",
+      "name": "Sucess: Send 200",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "respondWith": "text",
+        "responseBody": "\nWrong Verification Token Provided",
+        "options": {
+          "responseCode": 403
+        }
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.5,
+      "position": [
+        -1024,
+        -864
+      ],
+      "id": "1c26bbdf-73a6-4e98-bc5a-b2b5bdf2fa21",
+      "name": "Wrong Token: Send 403",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "path": "whatsapp",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -1488,
+        -960
+      ],
+      "id": "cd7dbd37-6cb1-4872-b708-f9fe4c76768c",
+      "name": "Listen for Webhook Call from Meta",
+      "webhookId": "acf2f7cd-9570-4923-922b-b76cf2c3b3c5",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "19aa6312-37d1-465e-8f5b-c362cc6b0e3d",
+              "leftValue": "={{$json.query[\"hub.verify_token\"]}}",
+              "rightValue": "n8n_verify",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            },
+            {
+              "id": "7aade80a-39e6-44cd-9207-d1f5511f9c8d",
+              "leftValue": "={{$json.query[\"hub.mode\"]}}",
+              "rightValue": "subscribe",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1232,
+        -960
+      ],
+      "id": "aeb63e55-7b9c-4181-9e81-a94e780ad6c7",
+      "name": "Check Token",
+      "disabled": true
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-15T17:40:10.990Z",
+      "createdAt": "2026-01-15T17:40:10.990Z",
+      "role": "workflow:owner",
+      "workflowId": "iI3KJyvaZCUqMexG79HSL",
+      "projectId": "qSOZXMvgNXXMUy37"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 2,
+  "updatedAt": "2026-01-19T21:18:00.687Z",
+  "versionId": "7462bb2e-be3b-4a22-9c41-52c9575f349c"
+}
