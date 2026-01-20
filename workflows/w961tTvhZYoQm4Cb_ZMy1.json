@@ -1,0 +1,794 @@
+{
+  "active": false,
+  "activeVersion": null,
+  "activeVersionId": null,
+  "connections": {
+    "HTTP Request: Get acessToken": {
+      "main": [
+        [
+          {
+            "node": "normalize msg",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request: Get Product by ID": {
+      "main": [
+        [
+          {
+            "node": "display product info",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "\"Please provide an existing ID\"",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "normalize msg": {
+      "main": [
+        [
+          {
+            "node": "If row exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Ask for Product ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "HTTP Request: Get Product by ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ask for Product ID": {
+      "main": [
+        [
+          {
+            "node": "Update State to WAITING_FOR_PRODUCT_ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "display product info": {
+      "main": [
+        [
+          {
+            "node": "Update State to IDLE",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "\"Please provide an existing ID\"": {
+      "main": [
+        [
+          {
+            "node": "Update State to WAITING_FOR_PRODUCT_ID1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get State": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Insert row": {
+      "main": [
+        [
+          {
+            "node": "Get State",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update State to WAITING_FOR_PRODUCT_ID": {
+      "main": [
+        []
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Get State",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Insert row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If row exists": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "If1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If1": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request: Get acessToken",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "createdAt": "2026-01-17T11:57:46.938Z",
+  "id": "w961tTvhZYoQm4Cb_ZMy1",
+  "isArchived": false,
+  "meta": {
+    "templateCredsSetupCompleted": true
+  },
+  "name": "API Test",
+  "nodes": [
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.mathe-leichtgemacht.de/api/login",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "ident",
+              "value": "spachtelprofi"
+            },
+            {
+              "name": "password",
+              "value": "spachtelprofi"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        -480,
+        -464
+      ],
+      "id": "8ae86f49-6026-49e4-ab9f-9dc52610d2cd",
+      "name": "HTTP Request: Get acessToken"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.mathe-leichtgemacht.de/api/product/id/{{ $('WhatsApp Trigger').item.json.messages[0].text.body }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "=Bearer {{ $('HTTP Request: Get acessToken').item.json.accessToken }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        1456,
+        -480
+      ],
+      "id": "47d5b380-1581-414b-9be4-883b8e564e20",
+      "name": "HTTP Request: Get Product by ID",
+      "alwaysOutputData": false,
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const wa_id = $('WhatsApp Trigger').item.json.contacts[0].wa_id ?? '';\nconst message = $('WhatsApp Trigger').item.json.messages[0].text.body ?? '';\n\n\n\nreturn (\n  {\n    json: {\n      user_id: wa_id,\n      message: message\n    }\n  }\n);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -304,
+        -464
+      ],
+      "id": "0853bfa9-d8a4-4d34-9129-f7f182785a91",
+      "name": "normalize msg"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ba943b57-1a22-4725-83cf-7afa8d8b7070",
+                    "leftValue": "={{ $json.state }}",
+                    "rightValue": "IDLE",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals",
+                      "name": "filter.operator.equals"
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Idle"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.state }}",
+                    "rightValue": "=WAITING_FOR_PRODUCT_ID",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "id": "8ac51aec-680b-42ae-9136-29b1eef8ef0b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "Waiting for Product ID"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        624,
+        -480
+      ],
+      "id": "a71aa338-b01c-4243-88de-1b60ad41420a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "906416842560656",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+        "textBody": "Please provide a Product ID",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        928,
+        -608
+      ],
+      "id": "849297af-81e9-4df4-a835-be3e03a031e2",
+      "name": "Ask for Product ID",
+      "webhookId": "e6227dc1-57a8-43fd-9d68-6ed194001d1a",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "lfOLV2Xk1iMETfI6",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "906416842560656",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+        "textBody": "=Name:  {{ $json.name }}\nBeschreibung: {{ $json.description }}\nPreis: {{ $json.price }}\nKategorie: {{ $json.categoryName }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1648,
+        -576
+      ],
+      "id": "b54673c3-a188-4fc9-b685-d0f2f3a9dc9d",
+      "name": "display product info",
+      "webhookId": "5ff7c569-5b42-415f-abed-6af35d54f384",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "lfOLV2Xk1iMETfI6",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "906416842560656",
+        "recipientPhoneNumber": "={{ $('WhatsApp Trigger').item.json.contacts[0].wa_id }}",
+        "textBody": "Please provide an existing ID",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1.1,
+      "position": [
+        1648,
+        -336
+      ],
+      "id": "a3f17d2c-1bee-48cb-898f-af1a949ad0fa",
+      "name": "\"Please provide an existing ID\"",
+      "webhookId": "5ff7c569-5b42-415f-abed-6af35d54f384",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "lfOLV2Xk1iMETfI6",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "dataTableId": {
+          "__rl": true,
+          "value": "TBUJqxH12m24UaZD",
+          "mode": "list",
+          "cachedResultName": "User States",
+          "cachedResultUrl": "/projects/qSOZXMvgNXXMUy37/datatables/TBUJqxH12m24UaZD"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "keyValue": "={{ $('normalize msg').item.json.user_id }}"
+            }
+          ]
+        },
+        "limit": 1
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        432,
+        -464
+      ],
+      "id": "c40eb6a9-681a-4fde-94d7-2b85006aa182",
+      "name": "Get State"
+    },
+    {
+      "parameters": {
+        "dataTableId": {
+          "__rl": true,
+          "value": "TBUJqxH12m24UaZD",
+          "mode": "list",
+          "cachedResultName": "User States",
+          "cachedResultUrl": "/projects/qSOZXMvgNXXMUy37/datatables/TBUJqxH12m24UaZD"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "user_id": "={{ $('normalize msg').item.json.user_id }}",
+            "state": "IDLE"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "state",
+              "displayName": "state",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        256,
+        -368
+      ],
+      "id": "88a385d3-746a-4fc8-b03c-06ee8c064384",
+      "name": "Insert row"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "TBUJqxH12m24UaZD",
+          "mode": "list",
+          "cachedResultName": "User States",
+          "cachedResultUrl": "/projects/qSOZXMvgNXXMUy37/datatables/TBUJqxH12m24UaZD"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "keyValue": "={{ $('normalize msg').item.json.user_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "state": "WAITING_FOR_PRODUCT_ID"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "state",
+              "displayName": "state",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1104,
+        -608
+      ],
+      "id": "005c8ce3-df50-4334-baf9-341b35482601",
+      "name": "Update State to WAITING_FOR_PRODUCT_ID"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "88c6dbdd-2109-42fd-8a48-f26408cad20d",
+              "leftValue": "={{ $('If row exists').item.json}}",
+              "rightValue": "[   {} ]",
+              "operator": {
+                "type": "object",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        48,
+        -464
+      ],
+      "id": "2d81cb96-1bfa-4dfb-8be1-380c0d091089",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "rowExists",
+        "dataTableId": {
+          "__rl": true,
+          "value": "TBUJqxH12m24UaZD",
+          "mode": "list",
+          "cachedResultName": "User States",
+          "cachedResultUrl": "/projects/qSOZXMvgNXXMUy37/datatables/TBUJqxH12m24UaZD"
+        },
+        "matchType": "allConditions",
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "keyValue": "={{ $json.user_id }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        -128,
+        -464
+      ],
+      "id": "16618c9f-93dd-4e25-a287-f6e5b8e8bc46",
+      "name": "If row exists",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "TBUJqxH12m24UaZD",
+          "mode": "list",
+          "cachedResultName": "User States",
+          "cachedResultUrl": "/projects/qSOZXMvgNXXMUy37/datatables/TBUJqxH12m24UaZD"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "keyValue": "={{ $('normalize msg').item.json.user_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "state": "WAITING_FOR_PRODUCT_ID"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "state",
+              "displayName": "state",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1984,
+        -336
+      ],
+      "id": "cb795c02-f955-4099-875d-245ee8a914af",
+      "name": "Update State to WAITING_FOR_PRODUCT_ID1"
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "dataTableId": {
+          "__rl": true,
+          "value": "TBUJqxH12m24UaZD",
+          "mode": "list",
+          "cachedResultName": "User States",
+          "cachedResultUrl": "/projects/qSOZXMvgNXXMUy37/datatables/TBUJqxH12m24UaZD"
+        },
+        "filters": {
+          "conditions": [
+            {
+              "keyName": "user_id",
+              "keyValue": "={{ $('normalize msg').item.json.user_id }}"
+            }
+          ]
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "state": "IDLE"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "user_id",
+              "displayName": "user_id",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": true
+            },
+            {
+              "id": "state",
+              "displayName": "state",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dataTable",
+      "typeVersion": 1.1,
+      "position": [
+        1984,
+        -576
+      ],
+      "id": "f742babe-6357-4ef9-b455-99fb1d5143b7",
+      "name": "Update State to IDLE"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1056,
+        -464
+      ],
+      "id": "effcaaa4-422d-4368-8a4b-3c091e610381",
+      "name": "WhatsApp Trigger",
+      "webhookId": "cfb8789c-7069-4076-ad32-90a19456618b",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "mZOQwegw4HMmNKgw",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "73af8900-f7dc-42f4-9ebc-294e3395cdd3",
+              "leftValue": "={{ $json.messages }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "exists",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -784,
+        -464
+      ],
+      "id": "a0f51142-645e-426a-98db-637446c9502c",
+      "name": "If1"
+    }
+  ],
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "shared": [
+    {
+      "updatedAt": "2026-01-17T11:57:46.938Z",
+      "createdAt": "2026-01-17T11:57:46.938Z",
+      "role": "workflow:owner",
+      "workflowId": "w961tTvhZYoQm4Cb_ZMy1",
+      "projectId": "qSOZXMvgNXXMUy37"
+    }
+  ],
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 1,
+  "updatedAt": "2026-01-18T17:25:54.266Z",
+  "versionId": "8049711e-dd22-4540-8bce-ab3d58dba96f"
+}
