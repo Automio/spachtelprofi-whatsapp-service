@@ -344,7 +344,7 @@
             "userId": "cf1e9a9b-7c78-4fa1-8082-862df3d67e20",
             "projectId": "qSOZXMvgNXXMUy37",
             "user": {
-              "updatedAt": "2026-01-26T23:00:38.110Z",
+              "updatedAt": "2026-01-27T23:00:38.095Z",
               "createdAt": "2026-01-15T17:35:38.236Z",
               "id": "cf1e9a9b-7c78-4fa1-8082-862df3d67e20",
               "email": "osedighi99@gmail.com",
@@ -370,7 +370,7 @@
               },
               "disabled": false,
               "mfaEnabled": false,
-              "lastActiveAt": "2026-01-26",
+              "lastActiveAt": "2026-01-27",
               "isPending": false
             }
           }
